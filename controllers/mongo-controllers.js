@@ -29,7 +29,10 @@ const handleQuery = async (req, res, next) => {
     }
 
     console.log(result);
-
+    if (!result) {
+        return res.status(404).json({message: "Not found"});
+    }
+    
     return res.status(200).json(result);
 
 }
