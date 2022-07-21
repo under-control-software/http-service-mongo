@@ -1,7 +1,6 @@
 const handleQuery = async (req, res, next) => {
     // console.log("req :", req);
     const db = req.app.locals.db;
-
     const requestQuery = req.body;
 
     console.log("request ->", requestQuery);
@@ -11,6 +10,9 @@ const handleQuery = async (req, res, next) => {
     let query;
     try {
         query = JSON.parse(requestQuery.query);
+        console.log("query ->", query);
+        //    convert the values can be converted into array
+
     } catch (err) {
         console.log(err);
         return res.status(500).json({message: "Invalid query"});
@@ -32,7 +34,7 @@ const handleQuery = async (req, res, next) => {
     if (!result) {
         return res.status(404).json({message: "Not found"});
     }
-    
+
     return res.status(200).json(result);
 
 }
