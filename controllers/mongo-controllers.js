@@ -1,41 +1,20 @@
+const axios = require('axios');
+const serverUrl = "https://sweet-ladybug-42.telebit.io/api/mongo";
+
 const handleQuery = async (req, res, next) => {
     // console.log("req :", req);
-    const db = req.app.locals.db;
-    const requestQuery = req.body;
-
-    console.log("request ->", requestQuery);
-    const collectionName = requestQuery.collectionName;
-    const limitCount = parseInt(requestQuery.limit);
-    const collection = db.collection(collectionName);
-    let query;
     try {
-        query = JSON.parse(requestQuery.query);
-        console.log("query ->", query);
-        //    convert the values can be converted into array
-
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({message: "Invalid query"});
+        console.log("request :", req.body);
+        const requestQuery = req.body;
+        console.log("requestQuery :", requestQuery);
+        const response = await axios.post(serverUrl, requestQuery);
+        console.log("response :", response);
+        res.status(200).json(response.data);
+    } catch (error) {
+        console.log("error :", error);
+        return res.status(500).json({message: "Internal server error"});
     }
 
-    let result;
-    try {
-        result = await collection.find(query).limit(limitCount).toArray();
-    } catch (err) {
-        console.log("err :", err);
-        return res.status(500).json({message: "Error"});
-    }
-    console.log("result ->", result);
-    if (limitCount === 1) {
-        result = result[0];
-    }
-
-    console.log(result);
-    if (!result) {
-        return res.status(404).json({message: "Not found"});
-    }
-
-    return res.status(200).json(result);
 
 }
 exports.handleQuery = handleQuery;

@@ -24,19 +24,7 @@ app.use((error, req, res, next) => {
     res.json({message: error.message || 'An unknown error occurred!'});
 });
 
-mongoClient.connect('mongodb://0.0.0.0:27108', {useNewUrlParser: true}, (err, client) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log('Connected to MongoDB');
-        const db = client.db('starwardb');
-        app.locals.db = db;
-        app.listen(5003, () => {
-                console.log('Listening on port 5003');
-            }
-        );
+app.listen(5003, () => {
+        console.log('Listening on port 5003');
     }
 );
-
-
