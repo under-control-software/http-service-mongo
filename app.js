@@ -24,7 +24,7 @@ app.use((error, req, res, next) => {
     res.json({message: error.message || 'An unknown error occurred!'});
 });
 
-mongoClient.connect('mongodb://0.0.0.0:27108', {useNewUrlParser: true}, (err, client) => {
+mongoClient.connect('mongodb://0.0.0.0:27017', {useNewUrlParser: true}, (err, client) => {
         if (err) {
             console.log(err);
             return;
